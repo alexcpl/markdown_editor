@@ -107,28 +107,6 @@ export function EditorToolbar({
           </Button>
         </div>
         
-        <Separator orientation="vertical" className="h-6 mx-2" />
-        
-        {/* View Options */}
-        <div className="flex items-center space-x-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleToggleWordWrap}
-            className="text-slate-600 hover:text-slate-800 hover:bg-slate-100"
-            title="Toggle Word Wrap"
-          >
-            <AlignLeft className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-slate-600 hover:text-slate-800 hover:bg-slate-100"
-            title="Syntax Highlighting Enabled"
-          >
-            <Highlighter className="w-4 h-4" />
-          </Button>
-        </div>
       </div>
     </div>
   );
