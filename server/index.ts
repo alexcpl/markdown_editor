@@ -1,10 +1,19 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import routes from "./routes.js";
 import { storage } from "./storage.js";
-import { SyncMessage } from "@shared/schema";
+// Note: SyncMessage import is not used in this file, consider removing if not needed elsewhere after compile
+import { SyncMessage } from "../shared/schema.js";
+
+// --- Add this block to get __dirname equivalent in ES modules ---
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+// ---
 
 const app = express();
 const server = createServer(app);
@@ -23,12 +32,17 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// --- ADD THIS BLOCK: Serve static files from the Vite build output ---
+// This should be placed BEFORE your API routes and 404 handler.
+const staticPath = path.join(__dirname, '../../dist/public'); // Adjust path as needed based on your Dockerfile structure
+console.log(`[Server] Serving static files from: ${staticPath}`); // For debugging
+app.use(express.static(staticPath));
+// --- END ADDITION ---
+
 // Routes
 app.use("/api", routes);
 
 // Socket.IO for real-time collaboration
-const documentRooms = new Map<string, Set<string>>();
-
 io.on("connection", (socket: Socket) => {
   console.log("User connected:", socket.id);
 
@@ -151,17 +165,35 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   });
 });
 
-// 404 handler
+// --- MODIFY THIS BLOCK: Catch-all handler for client-side routing ---
+// This should come AFTER static file serving and API routes, but BEFORE the final 404 handler.
+// It serves index.html for any route not handled above, allowing client-side routers to work.
+app.get('*', (req, res) => {
+  console.log(`[Server] Catch-all serving index.html for ${req.url}`); // For debugging
+  res.sendFile(path.join(staticPath, 'index.html'));
+});
+// --- END MODIFICATION ---
+
+// 404 handler (Optional: You might even remove this if the catch-all above handles everything)
+// If kept, it should be the very last middleware.
 app.use((req, res) => {
+  console.log(`[Server] 404 Route not found for ${req.method} ${req.url}`); // For debugging
   res.status(404).json({
     success: false,
     message: "Route not found",
   });
 });
 
-const PORT = process.env.PORT || 3001;
+// Ensure PORT is a number and listen on all interfaces
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`[Server] Server running on port ${PORT}`);
+  console.log(`[Server] Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log(`[Server] Static files served from: ${staticPath}`);
 });
+
+// --- Add this line for documentRooms which was missing in the original ---
+// Define documentRooms here or ensure it's declared before the io.on block
+const documentRooms = new Map<string, Set<string>>();
+// ---

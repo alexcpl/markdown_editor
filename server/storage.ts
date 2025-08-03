@@ -1,4 +1,4 @@
-import { User, Document, DocumentVersion } from "@shared/schema";
+import { User, Document, DocumentVersion } from "../shared/schema.js";
 import { randomUUID } from "crypto";
 
 // Storage interface

@@ -1,0 +1,13 @@
+node_modules
+# dist # <-- COMMENTED OUT or REMOVED
+.env
+.DS_Store
+.git
+.gitignore
+docker-compose.yml
+**/__tests__
+# Removed tsconfig exclusion to allow TypeScript builds
+**/*.md
+**/*.log
+attached_assets
+# Add any other specific files/folders you want to ignore during Docker build context creation
