@@ -38,12 +38,6 @@ Preferred communication style: Simple, everyday language.
 - **FileOperations**: File load/save functionality with local file system integration
 - **useEditor hook**: Custom hook managing editor state, history, and file operations
 
-### Database Layer
-- **Drizzle ORM** configured for PostgreSQL
-- **Neon Database** serverless PostgreSQL integration
-- User schema defined with id, username, and password fields
-- Memory storage implementation for development/testing
-
 ### State Management
 - Local component state for editor content and UI
 - History management for undo/redo functionality
