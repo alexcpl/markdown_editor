@@ -38,16 +38,9 @@ Preferred communication style: Simple, everyday language.
 - **FileOperations**: File load/save functionality with local file system integration
 - **useEditor hook**: Custom hook managing editor state, history, and file operations
 
-### Database Layer
-- **Drizzle ORM** configured for PostgreSQL
-- **Neon Database** serverless PostgreSQL integration
-- User schema defined with id, username, and password fields
-- Memory storage implementation for development/testing
-
 ### State Management
 - Local component state for editor content and UI
 - History management for undo/redo functionality
-- TanStack Query for server state management (prepared for future API calls)
 
 ## Data Flow
 
@@ -55,51 +48,5 @@ Preferred communication style: Simple, everyday language.
 2. **File Operations**: Load file → Read file content → Update editor content OR Save content → Create downloadable file
 3. **Drag & Drop**: File dropped → Validate file type → Read content → Update editor
 4. **API Ready**: Frontend configured with query client for future backend integration
-
-## External Dependencies
-
-### Core Framework Dependencies
-- React ecosystem: react, react-dom, @vitejs/plugin-react
-- Monaco Editor: monaco-editor for code editing experience
-- Routing: wouter for lightweight routing
-
-### UI and Styling
-- Tailwind CSS for utility-first styling
-- Radix UI primitives for accessible component foundation
-- Lucide React for consistent iconography
-- Class Variance Authority for component variant management
-
-### Development Tools
-- TypeScript for type safety
-- ESBuild for production bundling
-- PostCSS with Autoprefixer for CSS processing
-
-### Database and Backend
-- Drizzle ORM with PostgreSQL dialect
-- Neon Database serverless driver
-- Express.js with middleware for JSON parsing and logging
-
-## Deployment Strategy
-
-### Development
-- Vite dev server with HMR for frontend development
-- tsx for running TypeScript server directly
-- Drizzle Kit for database schema management and migrations
-
-### Production Build
-- Vite builds optimized frontend bundle to `dist/public`
-- ESBuild bundles Express server to `dist/index.js`
-- Single-command build process creates both frontend and backend artifacts
-
-### Database Management
-- Environment variable `DATABASE_URL` required for database connection
-- Drizzle migrations stored in `./migrations` directory
-- Schema-first approach with TypeScript types generated from database schema
-
-### Hosting Considerations
-- Static frontend can be served from any CDN or static hosting
-- Node.js server can be deployed to any platform supporting Express.js
-- PostgreSQL database can be hosted on Neon or any PostgreSQL provider
-- Environment variables needed: `DATABASE_URL`, `NODE_ENV`
 
 The application is structured for easy deployment to platforms like Replit, Vercel, Netlify, or traditional VPS hosting, with clear separation between client and server build outputs.
