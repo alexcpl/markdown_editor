@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { storage } from "./storage.js";
+import { Document } from "../shared/schema.js";
 import { 
   validateLogin, 
   validateRegister, 
@@ -8,7 +9,7 @@ import {
   authResponseSchema,
   apiResponseSchema,
   errorResponseSchema
-} from "@shared/schema";
+} from "../shared/schema.js";
 import { randomUUID } from "crypto";
 
 const router = Router();
@@ -131,7 +132,7 @@ router.get("/documents", authenticate, async (req: any, res) => {
       success: true,
       message: "Documents retrieved successfully",
       data: {
-        documents: documents.map(doc => ({
+        documents: documents.map((doc: Document) => ({
           id: doc.id,
           title: doc.title,
           userId: doc.userId,
@@ -330,15 +331,16 @@ router.get("/documents/:id/versions", authenticate, async (req: any, res) => {
   }
 });
 
-// Health check
+// Health check endpoint
 router.get("/health", (req, res) => {
   res.json({
     success: true,
     message: "Server is healthy",
     data: {
+      status: "healthy",
       timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-    },
+      uptime: process.uptime()
+    }
   });
 });
 
