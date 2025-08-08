@@ -8,7 +8,7 @@ import {
   Code, 
   Link, 
   AlignLeft, 
-  Highlighter 
+  Highlighter
 } from 'lucide-react';
 
 interface EditorToolbarProps {
@@ -104,6 +104,25 @@ export function EditorToolbar({
             title="Link (Ctrl+K)"
           >
             <Link className="w-4 h-4" />
+          </Button>
+        </div>
+
+        <Separator orientation="vertical" className="h-6 mx-2" />
+
+        {/* Selection Tools */}
+        <div className="flex items-center space-x-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              if (editorRef.current) {
+                editorRef.current.selectAll();
+              }
+            }}
+            className="text-slate-600 hover:text-slate-800 hover:bg-slate-100"
+            title="Select All (Ctrl+A)"
+          >
+            Select All
           </Button>
         </div>
         

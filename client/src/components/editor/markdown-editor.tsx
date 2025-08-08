@@ -77,6 +77,16 @@ export const MarkdownEditor = forwardRef<any, MarkdownEditorProps>(
                   }]);
                 }
               }
+            },
+            selectAll: () => {
+              if (editorRef.current) {
+                const model = editorRef.current.getModel();
+                if (model) {
+                  const fullRange = model.getFullModelRange();
+                  editorRef.current.setSelection(fullRange);
+                  editorRef.current.focus();
+                }
+              }
             }
           };
         }
